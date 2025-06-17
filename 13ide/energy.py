@@ -56,9 +56,13 @@ def idenergy2idgap(energy, harmonic=1):
 
 
 def disable_gapscan():
-    # caput('S13ID:USID:GapArraySetClearC.VAL', 1)
-    caput('S13ID:USID:GapArrayLenC.VAL', 0)
-    caput('S13ID:USID:GapScanModeC', 0)
+    gap_arrlen = get_pv(f'{IDPREF}:GapArrayLenC.VAL')
+    gapscan_mode = get_pv(f'{IDPREF}:GapScanModeC.VAL')
+    if gap_arrlen.write_access:
+        gap_arrlen.put(0)
+    if gapscan_mode.write_access:
+        gapscan_mode.put(0)
+
     sleep(1.0)
 
 def enable_gapscan(energy=None, e0=None, scanname=None, dwelltime=0.25):
@@ -86,11 +90,16 @@ def enable_gapscan(energy=None, e0=None, scanname=None, dwelltime=0.25):
     print(f"scan gaps: start={gap_um[0]}, stop={gap_um[-1]}, {harmonic=}, {len(energies)}, {len(fine_energies)}")
 
 
-    caput('S13ID:USID:GapArrayLenC.VAL', len(gap_um))
-    sleep(0.25)
-    caput('S13ID:USID:GapArraySetC.VAL', gap_um)
-    sleep(0.25)
-    caput('S13ID:USID:GapArrayLenC.VAL', len(gap_um))
+    gap_arrlen = get_pv(f'{IDPREF}:GapArrayLenC.VAL')
+    gap_array  = get_pv(f'{IDPREF}:GapArraySetC.VAL')
+    if gap_arrlen.write_access:
+        gap_arrlen.put(len(gap_um))
+        sleep(0.25)
+
+    if gap_array.write_access:
+        gap_array.put(gap_um)
+        sleep(0.25)
+
     return True
 
 
@@ -295,8 +304,8 @@ def move_to_edge(element, edge='K', id_harmonic=None,
     # first move mirrors without waiting
     dhmirror_stripe(stripe=stripe, wait=False)
 
-    id_scan_energy_pv = PV(f'{IDPREF}:ScanEnergyC.VAL')
-    id_curr_energy_pv = PV(f'{IDPREF}:EnergyM.VAL')
+    id_scan_energy_pv = get_pv(f'{IDPREF}:ScanEnergyC.VAL')
+    id_curr_energy_pv = get_pv(f'{IDPREF}:EnergyM.VAL')
     id_curr_energy = id_curr_energy_pv.get()
     id_scan_energy = id_scan_energy_pv.get()
     if id_scan_energy_pv.write_access:
