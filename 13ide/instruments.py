@@ -26,6 +26,10 @@ def detectors_in():
     move_instrument('Eiger XRD Stages', '95 mm')
 #enddef
 
+def foe_slits(val='250'):
+    move_instrument('FOE Slits', val)
+#enddef
+
 
 def ssa_hsize(hsize):
    """
@@ -119,27 +123,26 @@ def focus(position='2um'):
 
 def defocus():
     """move small KB mirrors to 50x50 microns"""
-    move_instrument('Small KBs Focus', '50um', wait=True, infoname='experiment_beamsize')
+    move_instrument('Small KBs Focus', '50 um', wait=True, infoname='experiment_beamsize')
 
 def focus_50um():
     """move small KB mirrors to 50x50 microns"""
-    move_instrument('Small KBs Focus', '50x50um', wait=True, infoname='experiment_beamsize')
+    move_instrument('Small KBs Focus', '50 um', wait=True, infoname='experiment_beamsize')
 
 def focus_25um():
     """move small KB mirrors to 25 microns"""
-    move_instrument('Small KBs Focus', '25x25um', wait=True, infoname='experiment_beamsize')
+    move_instrument('Small KBs Focus', '25 um', wait=True, infoname='experiment_beamsize')
 
 
 def focus_10um():
     """move small KB mirrors to 10 microns"""
-    move_instrument('Small KBs Focus', '10um', wait=True, infoname='experiment_beamsize')
+    move_instrument('Small KBs Focus', '10 um', wait=True, infoname='experiment_beamsize')
 
-def focus_1um():
-    """move small KB mirrors to 1 microns"""
-    move_instrument('Small KBs Focus', '1um', wait=True, infoname='experiment_beamsize')
+def focus_2um():
+    """move small KB mirrors to 2 microns"""
+    move_instrument('Small KBs Focus', '2 um', wait=True, infoname='experiment_beamsize')
 
 #
-
 
 def move_rotary1(value=None, wait=True):
     "move rotary1 stage to value"
