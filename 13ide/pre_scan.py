@@ -77,7 +77,7 @@ def pre_scan_command(row=1, *args, **kws):
         print("Pre Scan using GapScan:", e0, dwelltime, len(en_array), valid_gapscan)
 
     # print("Would save sample images:" ):
-    # save_sample_images()
+    save_sample_images()
 
     print("fast_mono_tilt() at energy ", mono_energy, estart)
     fast_mono_tilt()
